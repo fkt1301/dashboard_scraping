@@ -45,7 +45,7 @@ def parse(link):
     time.sleep(2)
     if req.status_code == 200:
         with open("data/infos.csv", "a", encoding="utf-8") as csvfile:
-            writer = csv.writer(csvfile)
+            # writer = csv.writer(csvfile)
             content = req.content
             soup = bs(content, "html.parser")
 
@@ -71,7 +71,11 @@ def parse(link):
                     else:
                         dico[k] = v
 
-            writer.writerow(dico.values())
+            #writer = csv.writer(csvfile)
+            colonnes = [dico.keys()]
+            writer = csv.DictWriter(csvfile, fieldnames= colonnes, lineterminator='\n')
+            # writer.writerow(dico.values())
+            writer.writerow(dico)
             print("Wrote information to csv for link " + link)
 
 def create_info_csv(links_to_scrap):
